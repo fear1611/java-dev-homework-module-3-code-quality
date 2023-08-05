@@ -1,14 +1,14 @@
 import java.util.Scanner;
 
+import static utilit.Constant.*;
+
 final class Processor {
+    private static boolean boxEmpty;
+
+    private static byte winner = 0;
+
     private Processor() {
     }
-    private static final byte BOARD_SIZE = 9;
-    private static final char[] BOX = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
-    private static final char PLAYER_SYMBOL = 'X';
-    private static final char COMPUTER_SYMBOL = 'O';
-    private static boolean boxEmpty;
-    private static byte winner = 0;
 
     public static void startGame() {
 
@@ -16,7 +16,7 @@ final class Processor {
 
         while (true) {
 
-            Board.dyspley(BOX);
+            Board.displayBoard(BOX);
 
             boxEmpty = Board.isBoxEmpty(boxEmpty, BOX, BOARD_SIZE);
 

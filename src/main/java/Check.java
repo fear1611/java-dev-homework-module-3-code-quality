@@ -1,10 +1,31 @@
-import static utilit.Constant.*;
+import static utilit.Constant.ONE;
+import static utilit.Constant.MESSAGE_WIN;
+import static utilit.Constant.TWO;
+import static utilit.Constant.MESSAGE_LOST;
+import static utilit.Constant.THREE;
+import static utilit.Constant.MESSAGE_DRAW;
+import static utilit.Constant.ZERO;
+import static utilit.Constant.PLAYER_SYMBOL;
+import static utilit.Constant.COMPUTER_SYMBOL;
+import static utilit.Constant.FIVE;
+import static utilit.Constant.FOUR;
+import static utilit.Constant.SIX;
+import static utilit.Constant.SEVEN;
+import static utilit.Constant.EIGHT;
 
+/**
+ *This class is responsible for checking the gain.
+ */
 final class Check {
 
     private Check() {
     }
 
+    /**
+     * This method is used to display the appropriate message depending on the game result.
+     * @param winner This parameter accepts a number from one to three
+     * @return Returns false if the condition is not met
+     */
     public static boolean message(final byte winner) {
         if (winner == ONE) {
             System.out.println(MESSAGE_WIN);
@@ -20,6 +41,12 @@ final class Check {
         return false;
     }
 
+    /**
+     * This method checks if there are still available spaces on the game board.
+     * @param box Game board
+     * @param boardSize Board Size
+     * @return Returns false if all slots are occupied
+     */
     public static boolean isBoxAvailable(final char[] box, final byte boardSize) {
         boolean boxAvailable = false;
         for (byte i = ZERO; i < boardSize; ++i) {
@@ -32,39 +59,28 @@ final class Check {
         return boxAvailable;
     }
 
+    /**
+     * This method checks all winning options.
+     * The first sorter is arrayed if all rows are filled
+     * The second sorter in the array checks if all columns are filled
+     * The third sorter in the array checks if all diagonals are filled
+     * @param symbol Player or computer symbol
+     * @param box Game board
+     * @return Returns true if one of the selectors is filled
+     */
     public static boolean checkWinForSymbol(final char symbol, final char[] box) {
-        return isRows(symbol, box) || isColum(symbol, box) || isDiagonals(symbol, box);
-    }
+        int[][] winPatterns = {
+                {ZERO, ONE, TWO}, {THREE, FOUR, FIVE}, {SIX, SEVEN, EIGHT},
+                {ZERO, THREE, SIX}, {ONE, FOUR, SEVEN}, {TWO, FIVE, EIGHT},
+                {ZERO, FOUR, EIGHT}, {TWO, FOUR, SIX}
+        };
 
-    private static boolean isDiagonals(final char symbol, final char[] box) {
-        int[] diagonalIndices = {0, 4, 8, 2, 4, 6};
+        for (int i = ZERO; i < winPatterns.length; i++) {
+            int a = winPatterns[i][ZERO];
+            int b = winPatterns[i][ONE];
+            int c = winPatterns[i][TWO];
 
-        for (int i = 0; i < diagonalIndices.length; i += 3) {
-            if (box[diagonalIndices[i]] == symbol && box[diagonalIndices[i + 1]] == symbol && box[diagonalIndices[i + 2]] == symbol) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private static boolean isColum(final char symbol, final char[] box) {
-        int[][] columnIndices = {{0, 3, 6}, {1, 4, 7}, {2, 5, 8}};
-
-        for (int i = 0; i < columnIndices.length; i++) {
-            if (box[columnIndices[i][0]] == symbol && box[columnIndices[i][1]] == symbol && box[columnIndices[i][2]] == symbol) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private static boolean isRows(final char symbol, final char[] box) {
-        int[][] rowIndices = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}};
-
-        for (int i = 0; i < rowIndices.length; i++) {
-            if (box[rowIndices[i][0]] == symbol && box[rowIndices[i][1]] == symbol && box[rowIndices[i][2]] == symbol) {
+            if (box[a] == symbol && box[b] == symbol && box[c] == symbol) {
                 return true;
             }
         }

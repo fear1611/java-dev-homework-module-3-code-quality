@@ -1,3 +1,6 @@
+/**
+ * This class is responsible for running the game.
+ */
 final class App {
 
     private App() {
